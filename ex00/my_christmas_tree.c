@@ -20,83 +20,75 @@
 **
 */
 
-#include <unistd.h> // Write
-#include <math.h> // POW, Floor
 #include <stdlib.h> // STRTOL
-#include <stdio.h> // PRINTF // debug
+#include <math.h> // POW, Floor
+#include <unistd.h> // Write
+//#include <stdio.h> // PRINTF	debug
 
 /*struct dimensions_tree
 {
-	int number_argument;
+	int number_scale;
 	int width_maximum;
 	int height_maximum;
 };*/
 
 //void sky_draw( int width_maximum, int width_tree );
 
-void crown_draw( int number_argument, int width_maximum, int height_maximum )
+void crown_draw( int number_argument, int width_maximum/*, int height_maximum*/ )
 {
-	int number;
-	int number_backup;
-	int width_max;
-	int width;
-	int width_minus;
-	int height_max;
+	int number_scale, number_backup;
+	int width, width_offset, width_offset_backup, width_difference;
 	int height;
-	int index;
-	int index_offset;
-	int i;
-	int j;
-	int k;
+	//int l_index, d/*istance*/_offset;
+	int k_index, j_index, i_index;
 
-	number = number_argument;
-	number_backup = number;
-	width_max = width_maximum;
+	number_scale/*size*/ = number_argument;
+	number_backup = number_scale;
 	width = 1;
-	width_minus = 2;
-	height_max = height_maximum;
+	width_difference = 2;
 	height = 4;
-	index = 0;
-	index_offset = 0;
-	k = 0;
-	while ( k < number_argument )
+
+	width_offset = 0;
+	width_offset_backup = width_offset;
+	k_index = 0;
+	while ( k_index < number_argument )
 	{
-		index = index_offset;
-		j = 0;
-		while ( j < height )
+		width_offset_backup = width_offset;
+		j_index = 0;
+		while ( j_index < height )
 		{
-			i = 0;
-			while ( i < width_max / 2 - width / 2 + ( index_offset % 2 ) * 1 ) // Jesus Christ. Figuring this out took me two months. I kept mixing up this expression and that of the maximum width.
+			i_index = 0;
+			while ( i_index < width_maximum / 2 - width / 2 + ( width_offset % 2 ) * 1 ) // Jesus Christ. Figuring this out took me two months. I kept mixing up this expression and that of the maximum width.
 			{
 				write( 1, " ", 1 );
-				i++;
+				i_index++;
 			}
-			i = 0;
-			while ( i < width )
+			i_index = 0;
+			while ( i_index < width )
 			{
 				write( 1, "*", 1 );
-				i++;
+				i_index++;
 			}
 			write( 1, "\n", 1 );
-			width += 2; // -,
-			index++; //     |
-			j++; //         |
-		} //                |
-		width -= 2; // <----'
+			width += 2; // -----------,
+			width_offset_backup++; // |
+			j_index++; //             |
+		} //                          |
+		width -= 2; // <--------------'
 		height += 1;
 
-		width = width - width_minus;
-		index_offset += width_minus; // It still fails. The moment I decided to tinker with an offset, I felt like I was going into a dead end.
-		number += 1;
-		if ( ( 3 < number_argument ) && ( number_backup == number - 2 ) )
+		width = width - width_difference;
+		width_offset += width_difference;
+		number_scale += 1;
+		if ( ( 3 < number_argument ) && ( number_backup == number_scale - 2 ) )
 		{
-			width_minus += 2;
-			number_backup = number; //+= 2;
+			width_difference += 2;
+			number_backup = number_scale;
 		}
 
-		k++;
+		k_index++;
 	}
-} // doesn't work. Gotta rewrite that part from scratch.
+}
 
 void trunk_draw( int number_argument, int width_maximum )
 {
@@ -123,26 +115,25 @@ void trunk_draw( int number_argument, int width_maximum )
 	}
 }
 
-int main( int count_argument, char* vector_argument[] )
+int main( int count_argument, char* vector_argument[] ) // As usual read my variable, function or routine names backwards, e.g. 'argument vector' for `vector_argument`.
 {
 	if ( count_argument != 2 )
 		return 1;
 
 	int number_argument;
 	int width_maximum;
-	int height_maximum;
+	//int height_maximum;
 
 	number_argument = (int) strtol( vector_argument[ 1 ], (char**) NULL, 10 );
-	if ( 0 < number_argument )
-		height_maximum = ( number_argument * 4 ) /* treetop */ + ( ( ( number_argument - 1 ) * ( ( number_argument - 1 ) + 1 ) ) / 2 ) /* crown */ + number_argument /* trunk */; // yes yes YES GOT IT HELL YEAH I OWN YOU MOTHERFUCKER // Karl V. P. B.'s h.
-	else
-		height_maximum = 1;
+	//if ( 0 < number_argument )
+	//	height_maximum = ( number_argument * 4 ) /* treetop */ + ( ( ( number_argument - 1 ) * ( ( number_argument - 1 ) + 1 ) ) / 2 ) /* crown */ + number_argument /* trunk */; // Karl V. P. B.'s h.
+	//else
+	//	height_maximum = 1;
 	if ( 0 < number_argument )
 		width_maximum = ( 2 * ( 3 * number_argument ) + 2 * ( number_argument / 2 ) * ( ( number_argument / 2 ) - ( ( number_argument + 1 ) % 2 ) ) ) + ( 1 ); // Ian Beauregard's w. // I almost had it! He obviously forwent the height in the calculation of the width. Why did I not do that all along? That will teach me. I refactored it at least. When I did, I also realized I had started going for the full width, whereas Ian went for the half width. I ended up confusing this expression (of the maximum width) with that of the working width, and figuring out that of the working width took me two months. How do I know that for sure, if I was tired? Although I have discarded my last draft, I remember I was backcalculating n from h_max with d in w for some reason. And my former prototype for crown_draw and the leftover one of sky_draw also do seem to attest this. But since my variable height_maximum shows I started to do it the other way round, this alone already attests it. TL;DR: I screwed up.
 	else
 		width_maximum = 0;
-
-	crown_draw( number_argument, width_maximum, height_maximum );
+	crown_draw( number_argument, width_maximum/*, height_maximum*/ );
 	trunk_draw( number_argument, width_maximum );
 
 	return 0;
