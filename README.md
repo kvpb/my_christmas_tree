@@ -1,5 +1,8 @@
 <!-- Let the good times roll, baby! -->
 
+<p align="center"><img src="https://rawcdn.githack.com/kvpb/my_christmas_tree/50032b04850b9feea777e44877bbfe759c55fef9/img.gif"><br>
+<i>Merry Christmas!</i> &#x1F384;</p>
+
 # My Christmas Tree
 
 ![C](https://img.shields.io/badge/-C-1B75B3?style=flat&logo=c&logoColor=a8b9cc) ![macOS](https://img.shields.io/badge/-macOS-FFF?style=flat&logo=apple&logoColor=A7A9AC) ![Linux](https://img.shields.io/badge/-Linux-0094FF?style=flat&logo=linux&logoColor=003778) ![platform](https://gistcdn.githack.com/kvpb/ed57eb3a03f2b5338fbede97e7cf296b/raw/ea6556bb04f592433023533ddbd931cc7d23e92b/apple-F6F6F6D5E1ED1E72F21AD5FD-madeona-1AD5FD1E72F2-mac-F6F6F6D5E1ED.svg) ![platform](https://gistcdn.githack.com/kvpb/ed57eb3a03f2b5338fbede97e7cf296b/raw/ea6556bb04f592433023533ddbd931cc7d23e92b/ubuntu-F6F6F6D5E1ED1E72F21AD5FD-madeona-1AD5FD1E72F2-linuxbox-F6F6F6D5E1ED.svg)
@@ -109,7 +112,7 @@ cd ${dir}
 Once the user has obtained the sources of this software, they may proceed to compile them. They should do thus:
 
 ```sh
-git clone ${URL}
+git clone https://github.com/kvpb/my_christmas_tree #${URL}
 cd ${repo}
 # preferably from ${dir}/.
 gcc -Wall -Werror -Wextra -o ${progname} ex00/my_christmas_tree.c # from ${repo}/.
